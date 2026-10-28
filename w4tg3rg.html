@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlowGreen</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --pink: #ff39ad;
+    --purple: #9b55ff;
+    --green: #caff70;
+    --dark: #211332;
+}
+
+body {
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background: #fff2fc;
+    color: var(--dark);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 10% 15%, #ffb5e6 0 3px, transparent 5px),
+        radial-gradient(circle at 85% 20%, #c5a1ff 0 3px, transparent 6px),
+        radial-gradient(circle at 25% 85%, #caff70 0 3px, transparent 6px),
+        radial-gradient(circle at 90% 80%, #ff9bdf 0 3px, transparent 6px);
+    background-size: 100px 100px, 130px 130px, 160px 160px, 120px 120px;
+}
+
+nav {
+    height: 75px;
+    padding: 0 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.92);
+    border-bottom: 3px solid var(--pink);
+    box-shadow: 0 4px 25px #ff39ad22;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    color: var(--purple);
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--pink);
+}
+
+.slide-count {
+    font-size: 13px;
+    font-weight: bold;
+    background: var(--green);
+    padding: 9px 14px;
+    border: 2px solid var(--dark);
+    border-radius: 25px;
+}
+
+.slides {
+    height: calc(100vh - 145px);
+    min-height: 0;
+    position: relative;
+}
+
+.slide {
+    display: none;
+    height: 100%;
+    overflow-y: auto;
+    padding: 35px 7% 40px;
+    animation: appear 0.45s ease;
+}
+
+.slide.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.tag {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 9px 15px;
+    border: 2px solid var(--dark);
+    border-radius: 30px;
+    background: var(--green);
+    box-shadow: 4px 4px 0 var(--dark);
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 22px;
+}
+
+h1 {
+    font-size: clamp(42px, 7vw, 78px);
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+}
+
+h1 span, h2 span {
+    color: var(--pink);
+}
+
+h2 {
+    font-size: clamp(30px, 5vw, 48px);
+    margin-bottom: 15px;
+}
+
+p {
+    line-height: 1.75;
+}
+
+.intro {
+    font-size: 18px;
+    max-width: 600px;
+    color: #655475;
+}
+
+.hero-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+}
+
+.hero-copy {
+    flex: 1 1 350px;
+}
+
+.planet-area {
+    flex: 1 1 250px;
+    min-height: 290px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.planet {
+    width: min(250px, 65vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    background:
+        radial-gradient(circle at 30% 25%, white, transparent 13%),
+        linear-gradient(135deg, #d8ff8c, #40d7a0, #a15cff);
+    border: 5px solid white;
+    box-shadow: 0 0 0 5px var(--dark),
+                0 0 35px var(--purple),
+                0 0 65px #ff39ad77;
+    animation: float 4s ease-in-out infinite;
+}
+
+.planet::before {
+    content: "";
+    position: absolute;
+    width: 55%;
+    height: 25%;
+    top: 28%;
+    left: 20%;
+    background: #2db97b;
+    border-radius: 60% 35% 50% 30%;
+    transform: rotate(-25deg);
+}
+
+.planet::after {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 28%;
+    top: 37%;
+    left: -10%;
+    border: 6px solid var(--pink);
+    border-radius: 50%;
+    transform: rotate(-25deg);
+    box-shadow: 0 0 15px var(--pink);
+}
+
+.star {
+    position: absolute;
+    font-size: 42px;
+    color: var(--pink);
+    font-weight: bold;
+    animation: twinkle 1.5s infinite alternate;
+}
+
+.star.one { top: 15px; left: 8%; }
+.star.two { top: 20px; right: 8%; color: var(--purple); }
+.star.three { bottom: 12px; left: 12%; color: #70b800; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes twinkle {
+    from { transform: scale(.7) rotate(0); opacity: .5; }
+    to { transform: scale(1.2) rotate(20deg); opacity: 1; }
+}
+
+.button {
+    display: inline-block;
+    padding: 14px 23px;
+    border: 2px solid white;
+    outline: 2px solid var(--dark);
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    font-size: 15px;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--dark);
+    transition: .25s;
+}
+
+.button:hover {
+    transform: translateY(-4px);
+    box-shadow: 8px 8px 0 var(--dark), 0 0 20px #ff39ad77;
+}
+
+.start-button {
+    margin-top: 28px;
+}
+
+.subtitle {
+    max-width: 650px;
+    color: #655475;
+    margin-bottom: 25px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.card {
+    background: white;
+    border: 3px solid var(--dark);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 6px 6px 0 var(--dark);
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 9px 0 var(--pink);
+}
+
+.number {
+    font-size: 36px;
+    color: var(--purple);
+    font-weight: 900;
+}
+
+.card h3 {
+    margin: 7px 0;
+    font-size: 21px;
+}
+
+.card p {
+    color: #655475;
+    font-size: 14px;
+}
+
+.card button {
+    margin-top: 12px;
+    padding: 9px 13px;
+    border: 2px solid var(--dark);
+    border-radius: 9px;
+    background: var(--green);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.details {
+    display: none;
+    margin-top: 12px;
+    padding: 12px;
+    background: #f2e8ff;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.details.show {
+    display: block;
+}
+
+.dark-slide {
+    background: var(--dark);
+    color: white;
+}
+
+.dark-slide .subtitle {
+    color: #e3d4f5;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.impact-card {
+    padding: 23px 15px;
+    text-align: center;
+    background: linear-gradient(145deg, #462660, #2b1a3d);
+    border: 2px solid #bd87ff;
+    border-radius: 18px;
+    box-shadow: 0 0 20px #9b55ff33;
+}
+
+.impact-card strong {
+    display: block;
+    font-size: 36px;
+    color: var(--green);
+    margin-bottom: 8px;
+}
+
+.panel {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    border: 3px solid var(--dark);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 7px 7px 0 var(--purple);
+}
+
+.panel label {
+    display: block;
+    margin: 14px 0 7px;
+    font-weight: bold;
+}
+
+.panel input, .panel select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #d8c0ff;
+    border-radius: 10px;
+    background: #fffaff;
+    font-size: 16px;
+}
+
+.panel .button {
+    margin-top: 17px;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+    line-height: 1.7;
+}
+
+.quiz-option {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    text-align: left;
+    border: 2px solid #ddc5ff;
+    border-radius: 10px;
+    background: #faf5ff;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.quiz-option:hover {
+    background: #ffe0f4;
+    border-color: var(--pink);
+}
+
+.day {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px;
+    margin: 6px 0;
+    background: #fff4fc;
+    border-radius: 9px;
+}
+
+.day input {
+    width: 19px;
+    height: 19px;
+    accent-color: var(--pink);
+}
+
+.day label {
+    margin: 0;
+}
+
+.progress-track {
+    height: 16px;
+    border: 2px solid var(--dark);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+    background: #eadcfb;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--green));
+    transition: width .3s;
+}
+
+footer {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 6%;
+    background: white;
+    border-top: 3px solid var(--pink);
+}
+
+footer p {
+    font-size: 12px;
+    color: #655475;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.controls button {
+    padding: 10px 18px;
+    border: 2px solid var(--dark);
+    border-radius: 10px;
+    background: var(--green);
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.controls button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+    nav {
+        height: 65px;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .hero-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-copy .tag {
+        align-self: center;
+    }
+
+    .planet-area {
+        min-height: 230px;
+    }
+
+    .planet {
+        width: 180px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .slide {
+        padding: 25px 6%;
+    }
+
+    footer {
+        height: 80px;
+    }
+
+    footer p {
+        font-size: 10px;
+    }
+
+    .controls button {
+        padding: 9px 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Glow<span>Green</span></div>
+    <div class="slide-count" id="slideCount">SLIDE 1 OF 6</div>
+</nav>
+
+<main class="slides">
+
+    <!-- SLIDE 1: HOME -->
+    <section class="slide active">
+        <div class="hero-layout">
+            <div class="hero-copy">
+                <div class="tag">SDG 12 · RESPONSIBLE CONSUMPTION</div>
+                <h1>LESS WASTE.<br>MORE <span>GLOW.</span></h1>
+                <p class="intro">
+                    Welcome to GlowGreen! The planet deserves a glow-up too.
+                    Discover how tiny everyday choices can make our future brighter.
+                </p>
+                <button class="button start-button" onclick="changeSlide(1)">
+                    ENTER THE GLOW-UP
+                </button>
+            </div>
+
+            <div class="planet-area">
+                <div class="star one">*</div>
+                <div class="star two">+</div>
+                <div class="star three">*</div>
+                <div class="planet"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 2: ACTIONS -->
+    <section class="slide">
+        <h2>THE PLANET'S <span>GLOW-UP PLAN</span></h2>
+        <p class="subtitle">Click each card to reveal an easy eco-friendly tip.</p>
+
+        <div class="card-grid">
+            <article class="card">
+                <div class="number">01</div>
+                <h3>Shop Smarter</h3>
+                <p>Buy what you need, not just what looks cool.</p>
+                <button onclick="showDetails(0)">Reveal tip</button>
+                <div class="details">Make a shopping list and choose durable products with less packaging.</div>
+            </article>
+
+            <article class="card">
+                <div class="number">02</div>
+                <h3>Reuse Everything</h3>
+                <p>Give your things a second life.</p>
+                <button onclick="showDetails(1)">Reveal tip</button>
+                <div class="details">Reuse jars, carry a refillable bottle, repair things and donate usable items.</div>
+            </article>
+
+            <article class="card">
+                <div class="number">03</div>
+                <h3>Recycle Right</h3>
+                <p>Help suitable materials become useful again.</p>
+                <button onclick="showDetails(2)">Reveal tip</button>
+                <div class="details">Sort materials according to your local recycling rules.</div>
+            </article>
+
+            <article class="card">
+                <div class="number">04</div>
+                <h3>Save Resources</h3>
+                <p>Every drop and every unit of energy counts.</p>
+                <button onclick="showDetails(3)">Reveal tip</button>
+                <div class="details">Switch off unused lights, save water and avoid wasting food.</div>
+            </article>
+        </div>
+    </section>
+
+    <!-- SLIDE 3: WHY IT MATTERS -->
+    <section class="slide dark-slide">
+        <h2>WHY IT <span>MATTERS</span></h2>
+        <p class="subtitle">
+            SDG 12 encourages responsible production and consumption to protect
+            resources and reduce waste.
+        </p>
+
+        <div class="impact-grid">
+            <div class="impact-card">
+                <strong>R1</strong>
+                <h3>Reduce</h3>
+                <p>Use fewer resources.</p>
+            </div>
+            <div class="impact-card">
+                <strong>R2</strong>
+                <h3>Reuse</h3>
+                <p>Use things again.</p>
+            </div>
+            <div class="impact-card">
+                <strong>R3</strong>
+                <h3>Recycle</h3>
+                <p>Sort suitable waste.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 4: TRACKER -->
+    <section class="slide">
+        <h2>YOUR <span>WASTE CHECK</span></h2>
+        <p class="subtitle">Record your waste and think about how to reduce it.</p>
+
+        <div class="panel">
+            <label for="wasteAmount">Waste produced today, in kilograms</label>
+            <input type="number" id="wasteAmount" min="0" max="1000" step="0.1"
+                   placeholder="Example: 0.5">
+
+            <label for="wasteType">Choose a waste type</label>
+            <select id="wasteType">
+                <option value="Food waste">Food waste</option>
+                <option value="Plastic">Plastic</option>
+                <option value="Paper">Paper and cardboard</option>
+                <option value="Mixed waste">Mixed waste</option>
+            </select>
+
+            <button class="button" onclick="saveWaste()">ADD MY ENTRY</button>
+            <div class="result" id="trackerResult" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <!-- SLIDE 5: QUIZ -->
+    <section class="slide">
+        <h2>THE <span>GREEN QUIZ</span></h2>
+        <p class="subtitle">Let's see what you know about responsible consumption.</p>
+
+        <div class="panel">
+            <h3>Which action helps reduce waste?</h3>
+
+            <button class="quiz-option" onclick="answerQuiz(0)">
+                A. Buying a new bottle every day
+            </button>
+            <button class="quiz-option" onclick="answerQuiz(1)">
+                B. Using a refillable bottle
+            </button>
+            <button class="quiz-option" onclick="answerQuiz(2)">
+                C. Throwing away reusable items
+            </button>
+
+            <div class="result" id="quizResult" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <!-- SLIDE 6: CHALLENGE -->
+    <section class="slide">
+        <h2>THE 7-DAY <span>GREEN CHALLENGE</span></h2>
+        <p class="subtitle">Tick off your challenges and watch your progress glow.</p>
+
+        <div class="panel">
+            <div class="day">
+                <input type="checkbox" id="day1" onchange="updateProgress()">
+                <label for="day1">Day 1: Carry a reusable bottle.</label>
+            </div>
+            <div class="day">
+                <input type="checkbox" id="day2" onchange="updateProgress()">
+                <label for="day2">Day 2: Avoid unnecessary packaging.</label>
+            </div>
+            <div class="day">
+                <input type="checkbox" id="day3" onchange="updateProgress()">
+                <label for="day3">Day 3: Reuse or repair something.</label>
+            </div>
+            <div class="day">
+                <input type="checkbox" id="day4" onchange="updateProgress()">
+                <label for="day4">Day 4: Switch off unused lights.</label>
+            </div>
+            <div class="day">
+                <input type="checkbox" id="day5" onchange="updateProgress()">
+                <label for="day5">Day 5: Avoid wasting food.</label>
+            </div>
+            <div class="day">
+                <input type="checkbox" id="day6" onchange="updateProgress()">
+                <label for="day6">Day 6: Sort waste correctly.</label>
+            </div>
+            <div class="day">
+                <input type="checkbox" id="day7" onchange="updateProgress()">
+                <label for="day7">Day 7: Encourage someone to reduce waste.</label>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <p class="result" id="progressText" aria-live="polite">
+                0 out of 7 challenges completed.
+            </p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>GlowGreen · SDG 12</p>
+    <div class="controls">
+        <button id="prevButton" onclick="changeSlide(-1)" disabled>← BACK</button>
+        <button id="nextButton" onclick="changeSlide(1)">NEXT →</button>
+    </div>
+</footer>
+
+<script>
+let currentSlide = 0;
+
+const slides = document.querySelectorAll(".slide");
+
+function changeSlide(direction) {
+    const next = currentSlide + direction;
+
+    if (next < 0 || next >= slides.length) {
+        return;
+    }
+
+    slides[currentSlide].classList.remove("active");
+    currentSlide = next;
+    slides[currentSlide].classList.add("active");
+
+    document.getElementById("slideCount").textContent =
+        "SLIDE " + (currentSlide + 1) + " OF " + slides.length;
+
+    document.getElementById("prevButton").disabled = currentSlide === 0;
+
+    const nextButton = document.getElementById("nextButton");
+
+    if (currentSlide === slides.length - 1) {
+        nextButton.textContent = "START AGAIN";
+        nextButton.onclick = function() {
+            changeSlide(-currentSlide);
+        };
+    } else {
+        nextButton.textContent = "NEXT →";
+        nextButton.onclick = function() {
+            changeSlide(1);
+        };
+    }
+}
+
+function showDetails(number) {
+    const details = document.querySelectorAll(".details");
+    details[number].classList.toggle("show");
+}
+
+function saveWaste() {
+    const input = document.getElementById("wasteAmount");
+    const type = document.getElementById("wasteType").value;
+    const result = document.getElementById("trackerResult");
+    const amount = Number(input.value);
+
+    if (input.value.trim() === "" || !Number.isFinite(amount) ||
+        amount < 0 || amount > 1000) {
+        result.textContent = "Please enter an amount between 0 and 1000 kg.";
+        return;
+    }
+
+    let entries = [];
+
+    try {
+        entries = JSON.parse(localStorage.getItem("glowGreenWaste") || "[]");
+        if (!Array.isArray(entries)) entries = [];
+    } catch (error) {
+        entries = [];
+    }
+
+    entries.push({ amount: amount, type: type });
+
+    try {
+        localStorage.setItem("glowGreenWaste", JSON.stringify(entries));
+    } catch (error) {
+        result.textContent = "This browser could not save your entry.";
+        return;
+    }
+
+    const total = entries.reduce((sum, entry) => sum + entry.amount, 0);
+
+    result.textContent =
+        "Entry added! Your recorded total is " + total.toFixed(2) + " kg.";
+
+    input.value = "";
+}
+
+function answerQuiz(choice) {
+    const result = document.getElementById("quizResult");
+
+    if (choice === 1) {
+        result.textContent = "Correct! Refillable bottles help reduce single-use waste.";
+        result.style.color = "#438d00";
+    } else {
+        result.textContent = "Not quite! Try again and choose the option that creates less waste.";
+        result.style.color = "#d52b91";
+    }
+}
+
+function updateProgress() {
+    let completed = 0;
+    const progress = [];
+
+    for (let i = 1; i <= 7; i++) {
+        const checked = document.getElementById("day" + i).checked;
+        progress.push(checked);
+
+        if (checked) {
+            completed++;
+        }
+    }
+
+    document.getElementById("progressFill").style.width =
+        (completed / 7 * 100) + "%";
+
+    document.getElementById("progressText").textContent =
+        completed + " out of 7 challenges completed.";
+
+    try {
+        localStorage.setItem("glowGreenProgress", JSON.stringify(progress));
+    } catch (error) {
+        // Progress still works until the page is refreshed.
+    }
+}
+
+function loadProgress() {
+    try {
+        const saved = JSON.parse(
+            localStorage.getItem("glowGreenProgress") || "null"
+        );
+
+        if (Array.isArray(saved)) {
+            for (let i = 1; i <= 7; i++) {
+                document.getElementById("day" + i).checked =
+                    saved[i - 1] === true;
+            }
+        }
+    } catch (error) {
+        // The challenge still works if saved progress is unavailable.
+    }
+
+    updateProgress();
+}
+
+loadProgress();
+</script>
+
+</body>
+</html>
